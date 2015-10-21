@@ -302,7 +302,7 @@ MonoBehaviour:
   m_SendPeerInfo: 0
   m_MaxDelay: .00999999978
   m_LogLevel: 2
-  m_PlayerPrefab: {fileID: 180002, guid: dca27778a5a6c38418531acbee31db01, type: 2}
+  m_PlayerPrefab: {fileID: 180002, guid: 8b923b48799e4064a975d03dcf5c9f04, type: 2}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 0
   m_OfflineScene: Main Menu
@@ -3792,6 +3792,7 @@ Camera:
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
+  m_TargetEye: 3
   m_HDR: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10

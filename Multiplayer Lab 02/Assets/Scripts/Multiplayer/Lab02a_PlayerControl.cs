@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.Networking;
 
+// @author: Tiffany Fischer
+// Modified by: Nathan Boehning
+
+// Purpose: Updates the characters state and position
 public class Lab02a_PlayerControl : NetworkBehaviour
 {
 	private struct PlayerState
@@ -12,6 +15,7 @@ public class Lab02a_PlayerControl : NetworkBehaviour
 
 	[SyncVar] private PlayerState state;
 
+	// Initialize the state
 	void InitState()
 	{
 
@@ -28,6 +32,7 @@ public class Lab02a_PlayerControl : NetworkBehaviour
 
 	}
 
+	// Updates the rotation and position of the player
 	void SyncState()
 	{
 
@@ -36,6 +41,7 @@ public class Lab02a_PlayerControl : NetworkBehaviour
 
 	}
 
+	// Moves the player based on the previous player state, and the key that was pressed
 	PlayerState Move(PlayerState previous, KeyCode newKey)
 	{
 		float deltaX = 0, deltaY = 0, deltaZ = 0;
@@ -76,7 +82,7 @@ public class Lab02a_PlayerControl : NetworkBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-	
+		// Initializes the player state and syncs with the server
 		InitState();
 		SyncState();
 
@@ -86,22 +92,31 @@ public class Lab02a_PlayerControl : NetworkBehaviour
 	void Update ()
 	{
 
-	    if (isLocalPlayer)
-	    {
-	        KeyCode[] possibleKeys = {KeyCode.A, KeyCode.S, KeyCode.D, KeyCode.W, KeyCode.Q, KeyCode.E, KeyCode.Space };
-	        foreach (KeyCode possibleKey in possibleKeys)
-	        {
-	            if (!Input.GetKey(possibleKey))
-	                continue;
-	            CmdMoveOnServer(possibleKey);
-	        }
-	    }
+		if (isLocalPlayer)
+		{
+			// Array of possible keys that can be pressed
+			KeyCode[] possibleKeys = {KeyCode.A, KeyCode.S, KeyCode.D, KeyCode.W, KeyCode.Q, KeyCode.E, KeyCode.Space };
+			
+			// Loops through the keys
+			foreach (KeyCode possibleKey in possibleKeys)
+			{
+				// If an valid key was pressed, then continue
+				if (!Input.GetKey(possibleKey))
+					continue;
+				// Continues onto a function that updates the position on the server.
+				CmdMoveOnServer(possibleKey);
+			}
+		}
+
+		// Syncs the players state
+		SyncState();
 
 	}
 
-    [Command]
-    void CmdMoveOnServer(KeyCode pressedKey)
-    {
-        state = Move(state, pressedKey);
-    }
+	// Updates the position on the server.
+	[Command]
+	void CmdMoveOnServer(KeyCode pressedKey)
+	{
+		state = Move(state, pressedKey);
+	}
 }
